@@ -4,7 +4,7 @@ module Devise
       # Gives the desired backend driver class to be used to enqueue
       # jobs.
       def self.for(backend)
-        byebug
+         
         const_get(backend.to_s.camelize)
 
       rescue NameError

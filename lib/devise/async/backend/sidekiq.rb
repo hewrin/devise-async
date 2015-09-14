@@ -7,7 +7,7 @@ module Devise
         sidekiq_options :queue => Devise::Async.queue
 
         def self.enqueue(*args)
-          byebug
+           
           perform_async(*args)
         end
       end

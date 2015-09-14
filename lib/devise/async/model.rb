@@ -12,7 +12,7 @@ module Devise
         #
         # Otherwise we use after_save.
         if respond_to?(:after_commit) # AR only
-          byebug
+           
           after_commit :send_devise_pending_notifications
         else # mongoid
           after_save :send_devise_pending_notifications
@@ -26,7 +26,7 @@ module Devise
       # processing instead of sending it inline as devise does by
       # default.
       def send_devise_notification(notification, *args)
-        byebug
+         
         return super unless Devise::Async.enabled
 
         # The current locale has to be remembered until the actual sending
@@ -34,34 +34,34 @@ module Devise
         # using asynchronous mechanisms that use another thread to send an
         # email the currently used locale will be gone later.
         args = args_with_current_locale(args)
-        byebug
+         
         # If the record is dirty we keep pending notifications to be enqueued
         # by the callback and avoid before commit job processing.
         if changed?
-          byebug
+           
           devise_pending_notifications << [ notification, args ]
         # If the record isn't dirty (aka has already been saved) enqueue right away
         # because the callback has already been triggered.
         else
-          byebug
+           
           Devise::Async::Worker.enqueue(notification, self.class.name, self.id.to_s, *args)
         end
       end
 
       # Send all pending notifications.
       def send_devise_pending_notifications
-        byebug
+         
         devise_pending_notifications.each do |notification, args|
           # Use `id.to_s` to avoid problems with mongoid 2.4.X ids being serialized
           # wrong with YAJL.
-          byebug
+           
           Devise::Async::Worker.enqueue(notification, self.class.name, self.id.to_s, *args)
         end
         @devise_pending_notifications = []
       end
 
       def devise_pending_notifications
-        byebug
+         
         @devise_pending_notifications ||= []
       end
 
@@ -70,17 +70,17 @@ module Devise
       def args_with_current_locale(args)
         # The default_locale is taken in any case. Hence, the args do not have
         # to be adapted if default_locale and current locale are equal.
-        byebug
+         
         args = add_current_locale_to_args(args) if I18n.locale != I18n.default_locale
         args
       end
 
       def add_current_locale_to_args(args)
         # Devise expects a hash as the last parameter for Mailer methods.
-        byebug
+         
         opts = args.last.is_a?(Hash) ? args.pop : {}
         opts['locale'] = I18n.locale
-        byebug
+         
         args.push(opts)
       end
 
