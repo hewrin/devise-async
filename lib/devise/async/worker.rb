@@ -34,7 +34,7 @@ module Devise
       def backend_class
         byebug
         Backend.for(Devise::Async.backend)
-        byebug
+
       end
         end
     end
