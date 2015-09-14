@@ -12,6 +12,7 @@ module Devise
         #
         # Otherwise we use after_save.
         if respond_to?(:after_commit) # AR only
+          byebug
           after_commit :send_devise_pending_notifications
         else # mongoid
           after_save :send_devise_pending_notifications
