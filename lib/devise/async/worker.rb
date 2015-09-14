@@ -7,12 +7,10 @@ module Devise
       # to the desired backend.
       def enqueue(method, resource_class, resource_id, *args)
         # convert args to strings and hashes with string keys before passing to backend
-         
-
         args = stringify_args args
-         
+        puts "@@@@@@@@@@@@@@@@@@@@@@"
+        puts "in worker enqueue method"
         backend_class.enqueue(method, resource_class, resource_id, *args)
-         
       end
 
       private
@@ -32,7 +30,9 @@ module Devise
       end
 
       def backend_class
-         
+        puts "@@@@@@@@@@@@@@@@@@@@@@"
+        puts "#{Backend.for(Devise::Async.backend)}"
+        puts "@@@@@@@@@@@@@@@@@@@@@@"
         Backend.for(Devise::Async.backend)
 
       end

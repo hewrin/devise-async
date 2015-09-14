@@ -12,7 +12,8 @@ module Devise
         #
         # Otherwise we use after_save.
         if respond_to?(:after_commit) # AR only
-           
+          puts "@@@@@@@@@@@@@@@@@@@@@@"
+          puts "after_commit"
           after_commit :send_devise_pending_notifications
         else # mongoid
           after_save :send_devise_pending_notifications
@@ -50,7 +51,9 @@ module Devise
 
       # Send all pending notifications.
       def send_devise_pending_notifications
-         
+         puts "@@@@@@@@@@@@@@@@@@@@@@"
+         puts devise_pending_notifications
+         puts "@@@@@@@@@@@@@@@@@@@@@@"
         devise_pending_notifications.each do |notification, args|
           # Use `id.to_s` to avoid problems with mongoid 2.4.X ids being serialized
           # wrong with YAJL.
