@@ -16,6 +16,7 @@ module Devise
       private
 
       def stringify_args(args)
+        byebug
         args.map do |a|
           case a
             when Hash
@@ -29,6 +30,7 @@ module Devise
       end
 
       def backend_class
+        byebug
         Backend.for(Devise::Async.backend)
       end
         end
