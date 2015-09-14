@@ -8,6 +8,7 @@ module Devise
       def enqueue(method, resource_class, resource_id, *args)
         # convert args to strings and hashes with string keys before passing to backend
         byebug
+        
         args = stringify_args args
         byebug
         backend_class.enqueue(method, resource_class, resource_id, *args)

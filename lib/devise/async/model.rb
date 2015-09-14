@@ -25,6 +25,7 @@ module Devise
       # processing instead of sending it inline as devise does by
       # default.
       def send_devise_notification(notification, *args)
+        byebug
         return super unless Devise::Async.enabled
 
         # The current locale has to be remembered until the actual sending
@@ -46,9 +47,11 @@ module Devise
 
       # Send all pending notifications.
       def send_devise_pending_notifications
+        byebug
         devise_pending_notifications.each do |notification, args|
           # Use `id.to_s` to avoid problems with mongoid 2.4.X ids being serialized
           # wrong with YAJL.
+          byebug
           Devise::Async::Worker.enqueue(notification, self.class.name, self.id.to_s, *args)
         end
         @devise_pending_notifications = []
