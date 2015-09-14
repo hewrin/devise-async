@@ -33,14 +33,16 @@ module Devise
         # using asynchronous mechanisms that use another thread to send an
         # email the currently used locale will be gone later.
         args = args_with_current_locale(args)
-
+        byebug
         # If the record is dirty we keep pending notifications to be enqueued
         # by the callback and avoid before commit job processing.
         if changed?
+          byebug
           devise_pending_notifications << [ notification, args ]
         # If the record isn't dirty (aka has already been saved) enqueue right away
         # because the callback has already been triggered.
         else
+          byebug
           Devise::Async::Worker.enqueue(notification, self.class.name, self.id.to_s, *args)
         end
       end
@@ -58,6 +60,7 @@ module Devise
       end
 
       def devise_pending_notifications
+        byebug
         @devise_pending_notifications ||= []
       end
 
@@ -66,14 +69,17 @@ module Devise
       def args_with_current_locale(args)
         # The default_locale is taken in any case. Hence, the args do not have
         # to be adapted if default_locale and current locale are equal.
+        byebug
         args = add_current_locale_to_args(args) if I18n.locale != I18n.default_locale
         args
       end
 
       def add_current_locale_to_args(args)
         # Devise expects a hash as the last parameter for Mailer methods.
+        byebug
         opts = args.last.is_a?(Hash) ? args.pop : {}
         opts['locale'] = I18n.locale
+        byebug
         args.push(opts)
       end
 
