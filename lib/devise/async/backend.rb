@@ -6,7 +6,7 @@ module Devise
       def self.for(backend)
         byebug
         const_get(backend.to_s.camelize)
-        byebug
+
       rescue NameError
         raise ArgumentError, "unsupported backend for devise-async."
       end
