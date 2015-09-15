@@ -5,10 +5,10 @@ module Devise
         include ::Sidekiq::Worker
 
         sidekiq_options :queue => Devise::Async.queue
-
         def self.enqueue(*args)
-           
+          puts  "%%%%%%%%%%%%%%%%"
           perform_async(*args)
+          puts "Job enqueued"
         end
       end
     end
