@@ -6,8 +6,15 @@ module Devise
 
         sidekiq_options :queue => Devise::Async.queue
         def self.enqueue(*args)
+          puts "Sidekiq Worker Method"
           puts  "%%%%%%%%%%%%%%%%"
-          perform_async(*args)
+          puts "#{args}"
+          puts  "%%%%%%%%%%%%%%%%"
+          if perform_async(*args)
+            puts "works"
+          else
+            puts "fails"
+          end
           puts "Job enqueued"
         end
       end
